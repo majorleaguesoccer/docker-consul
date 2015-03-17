@@ -2,6 +2,7 @@
 
 readonly IMAGE="progrium/consul"
 readonly EXPECT="${EXPECT:-3}"
+readonly RECURSOR="${RECURSOR:-8.8.8.8}"
 
 cmd-run() {
 	local ip_def="$1"; shift
@@ -38,6 +39,8 @@ EOF
 }
 
 main() {
+ 	sed -i -e "s/^.*\"recursor\":.*$/\"recursor\": \"${RECURSOR}\",/" /config/consul.json
+
 	set -eo pipefail
 	case "$1" in
 	cmd:run)            shift; cmd-run $@;;
